@@ -1,0 +1,1674 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My MarketKi - Platform Jual Beli Sekolah & Komunitas</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts (Plus Jakarta Sans) -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght=300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        /* Custom scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col transition-colors duration-300">
+
+    <!-- HEADER / NAVIGATION -->
+    <header class="bg-white border-b border-slate-100 sticky top-0 z-40 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Brand / Logo -->
+            <div class="flex items-center gap-3 cursor-pointer" onclick="switchTab('home')">
+                <div id="header-logo-container" class="w-12 h-12 bg-emerald-100 rounded-2xl flex items-center justify-center text-emerald-600 shadow-inner overflow-hidden select-none">
+                    <!-- Loaded dynamically via JS -->
+                </div>
+                <div>
+                    <h1 class="text-xl font-extrabold text-slate-900 tracking-tight" id="app-header-title">My <span class="text-emerald-600">MarketKi</span></h1>
+                    <p class="text-xs text-slate-500 font-medium" id="app-header-tagline">Beri & Terima ke Kebaikan</p>
+                </div>
+            </div>
+
+            <!-- Role Selector -->
+            <div class="flex bg-slate-100 p-1 rounded-xl">
+                <button id="btn-tab-membeli" onclick="switchTab('membeli')" class="px-3 sm:px-5 py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-200 flex items-center gap-1.5 text-slate-600 hover:text-slate-900">
+                    <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+                    <span>Membeli</span>
+                </button>
+                <button id="btn-tab-menjual" onclick="switchTab('menjual')" class="px-3 sm:px-5 py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-200 flex items-center gap-1.5 text-slate-600 hover:text-slate-900">
+                    <i data-lucide="store" class="w-4 h-4"></i>
+                    <span>Menjual</span>
+                </button>
+                <button id="btn-tab-admin" onclick="openAdminAuthModal()" class="px-3 sm:px-5 py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-200 flex items-center gap-1.5 text-slate-600 hover:text-slate-900">
+                    <i data-lucide="shield" class="w-4 h-4"></i>
+                    <span>Admin</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- TOAST NOTIFICATION (Custom Alert Replacement) -->
+    <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 max-w-md w-full px-4"></div>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- ================= LAMAN LANDING / CHOOSE ROLE ================= -->
+        <div id="section-home" class="py-12 flex flex-col items-center justify-center text-center rounded-3xl transition-all duration-500">
+            <div class="max-w-2xl bg-white/80 backdrop-blur-md p-8 rounded-3xl shadow-sm border border-white/50">
+                
+                <!-- CONTAINER LOGO UTAMA DINAMIS -->
+                <div id="home-logo-container" class="w-28 h-28 bg-emerald-50 rounded-3xl flex items-center justify-center text-emerald-600 shadow-md mx-auto mb-6 overflow-hidden border border-emerald-100 select-none">
+                    <!-- Dimuat oleh JS secara dinamis -->
+                </div>
+
+                <div class="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 text-emerald-700 rounded-full text-xs font-semibold mb-6">
+                    <i data-lucide="sparkles" class="w-3 h-3"></i>
+                    <span id="app-badge-text">Platform Jual Beli Komunitas Terpercaya</span>
+                </div>
+                <h2 class="text-4xl sm:text-5xl font-extrabold text-slate-900 leading-tight mb-4" id="app-hero-title">
+                    Selamat Datang di <span class="text-emerald-600">My MarketKi</span>
+                </h2>
+                <p class="text-lg text-slate-600 mb-10" id="app-hero-desc">
+                    Aplikasi praktis untuk guru, orang tua, siswa, dan warga sekitar guna mendukung kewirausahaan mandiri. Jual barangmu atau temukan berbagai produk berkualitas!
+                </p>
+
+                <!-- Attribution Added -->
+                <div class="mb-10 text-slate-400 text-xs font-medium">
+                    Dibuat oleh <span class="text-slate-600 font-bold">Mery Mambrasar</span>
+                </div>
+                
+                <div class="grid sm:grid-cols-2 gap-6 max-w-lg mx-auto">
+                    <!-- Card Belanja -->
+                    <button onclick="switchTab('membeli')" class="group p-6 bg-white border border-slate-150 rounded-2xl text-left shadow-md hover:shadow-xl hover:border-emerald-500 transition-all duration-300 transform hover:-translate-y-1">
+                        <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center mb-4 group-hover:bg-emerald-600 group-hover:text-white transition-colors duration-300">
+                            <i data-lucide="shopping-cart" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-900 group-hover:text-emerald-600 transition-colors">Saya Ingin Membeli</h3>
+                        <p class="text-sm text-slate-500 mt-1">Cari jajanan, souvenir, kerajinan tangan, dan kebutuhan kreasi siswa.</p>
+                    </button>
+
+                    <!-- Card Jual -->
+                    <button onclick="switchTab('menjual')" class="group p-6 bg-white border border-slate-150 rounded-2xl text-left shadow-md hover:shadow-xl hover:border-blue-500 transition-all duration-300 transform hover:-translate-y-1">
+                        <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center mb-4 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300">
+                            <i data-lucide="piggy-bank" class="w-6 h-6"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-slate-900 group-hover:text-blue-600 transition-colors">Saya Ingin Menjual</h3>
+                        <p class="text-sm text-slate-500 mt-1">Unggah produk jualan Anda, kelola katalog, dan dapatkan notifikasi instan.</p>
+                    </button>
+                </div>
+
+                <!-- Admin Quick Link -->
+                <div class="mt-12">
+                    <button onclick="switchTab('admin')" class="inline-flex items-center gap-2 text-xs font-semibold text-slate-400 hover:text-slate-600 transition-colors">
+                        <i data-lucide="shield" class="w-3.5 h-3.5"></i>
+                        <span>Ganti Logo & Info Aplikasi (Akses Admin)</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- ================= LAMAN PERTAMA: MENJUAL (SELLER) ================= -->
+        <div id="section-menjual" class="hidden space-y-8">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200 pb-5">
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-wider text-blue-600">Laman Pertama</span>
+                    <h2 class="text-2xl font-extrabold text-slate-900">Dasbor Penjual</h2>
+                    <p class="text-sm text-slate-500">Kelola barang jualan Anda dan terima pesanan masuk.</p>
+                </div>
+                <button onclick="openAddProductModal()" class="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl font-bold text-sm shadow-lg shadow-blue-100 transition-all duration-200">
+                    <i data-lucide="plus-circle" class="w-4 h-4"></i>
+                    <span>Tambah Produk Jualan</span>
+                </button>
+            </div>
+
+            <!-- Seller Stats & Tabs -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Kiri: Daftar Produk Penjual -->
+                <div class="lg:col-span-2 space-y-6">
+                    <div class="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm">
+                        <h3 class="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+                            <i data-lucide="package" class="text-blue-500"></i> Katalog Dagangan Anda
+                        </h3>
+                        <div id="seller-products-list" class="grid sm:grid-cols-2 gap-4">
+                            <!-- JS loaded seller products -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kanan: Notifikasi Belanja & Hubungi Pembeli -->
+                <div class="space-y-6">
+                    <!-- Notification Box -->
+                    <div class="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-bold text-slate-900 flex items-center gap-2">
+                                <i data-lucide="bell" class="text-amber-500"></i> Pesanan Masuk
+                            </h3>
+                            <span id="order-badge" class="bg-amber-100 text-amber-800 text-xs font-bold px-2.5 py-1 rounded-full">0 Baru</span>
+                        </div>
+                        <div id="seller-orders-list" class="space-y-4 max-h-[350px] overflow-y-auto pr-1">
+                            <!-- JS loaded incoming orders/notifications -->
+                        </div>
+                    </div>
+
+                    <!-- Chat Box Seller (Pesan dari pembeli) -->
+                    <div class="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm flex flex-col h-[400px]">
+                        <h3 class="text-lg font-bold text-slate-900 mb-3 flex items-center gap-2">
+                            <i data-lucide="message-square" class="text-emerald-500"></i> Obrolan Pembeli
+                        </h3>
+                        <!-- List of active chat sessions -->
+                        <div id="chat-rooms-list" class="flex gap-2 overflow-x-auto pb-2 border-b border-slate-100 mb-3 text-xs">
+                            <!-- JS loaded chat targets -->
+                        </div>
+                        <!-- Active Chat Log -->
+                        <div id="chat-messages-container" class="flex-grow overflow-y-auto mb-3 space-y-2 p-2 bg-slate-50 rounded-lg text-sm">
+                            <p class="text-center text-slate-400 text-xs my-auto">Pilih obrolan pembeli di atas untuk mulai membalas pesan.</p>
+                        </div>
+                        <!-- Chat Input -->
+                        <div class="flex gap-2">
+                            <input id="seller-chat-input" type="text" placeholder="Ketik balasan pesan..." class="flex-grow px-3 py-2 text-sm bg-slate-100 border border-slate-200 rounded-lg focus:outline-none focus:border-blue-500 disabled:opacity-50" disabled>
+                            <button id="seller-send-btn" onclick="sendSellerMessage()" class="bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-lg transition-colors disabled:opacity-50" disabled>
+                                <i data-lucide="send" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- ================= LAMAN KEDUA: MEMBELI (BUYER) ================= -->
+        <div id="section-membeli" class="hidden space-y-8">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200 pb-5">
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-wider text-emerald-600">Laman Kedua</span>
+                    <h2 class="text-2xl font-extrabold text-slate-900">Etalase Toko</h2>
+                    <p class="text-sm text-slate-500">Telusuri dan beli kreasi siswa serta barang unggulan lainnya.</p>
+                </div>
+                <!-- Search & Filters -->
+                <div class="flex gap-2 w-full md:w-auto">
+                    <div class="relative flex-grow md:w-72">
+                        <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3 top-3.5"></i>
+                        <input id="buyer-search" type="text" oninput="renderBuyerProducts()" placeholder="Cari nama produk / penjual..." class="w-full pl-9 pr-4 py-2.5 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-emerald-500">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Categories -->
+            <div class="flex gap-2 overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0">
+                <button onclick="filterCategory('semua')" class="cat-btn active bg-emerald-600 text-white font-medium text-xs px-4 py-2 rounded-full whitespace-nowrap transition-all duration-200">Semua</button>
+                <button onclick="filterCategory('makanan')" class="cat-btn bg-white border border-slate-200 text-slate-600 hover:border-emerald-500 font-medium text-xs px-4 py-2 rounded-full whitespace-nowrap transition-all duration-200">Makanan</button>
+                <button onclick="filterCategory('minuman')" class="cat-btn bg-white border border-slate-200 text-slate-600 hover:border-emerald-500 font-medium text-xs px-4 py-2 rounded-full whitespace-nowrap transition-all duration-200">Minuman</button>
+                <button onclick="filterCategory('aksesoris')" class="cat-btn bg-white border border-slate-200 text-slate-600 hover:border-emerald-500 font-medium text-xs px-4 py-2 rounded-full whitespace-nowrap transition-all duration-200">Aksesoris & Merchandise</button>
+                <button onclick="filterCategory('kerajinan')" class="cat-btn bg-white border border-slate-200 text-slate-600 hover:border-emerald-500 font-medium text-xs px-4 py-2 rounded-full whitespace-nowrap transition-all duration-200">Kerajinan & Desain</button>
+            </div>
+
+            <!-- Products Grid -->
+            <div id="buyer-products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Loaded Dynamically via JS -->
+            </div>
+        </div>
+
+
+        <!-- ================= TEMPAT KHUSUS ADMIN ================= -->
+        <div id="section-admin" class="hidden space-y-8">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200 pb-5">
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-wider text-purple-600">Ruang Kendali Sistem</span>
+                    <h2 class="text-2xl font-extrabold text-slate-900">Dasbor Khusus Admin</h2>
+                    <p class="text-sm text-slate-500">Kelola identitas aplikasi, ganti logo utama, dan pantau seluruh transaksi.</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                
+                <!-- SISI KIRI: PENGATURAN IDENTITAS APLIKASI (Ubah Logo & Nama) -->
+                <div class="space-y-6">
+                    <div class="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm">
+                        <h3 class="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+                            <i data-lucide="settings" class="text-purple-500"></i> Identitas & Latar Belakang
+                        </h3>
+                        
+                        <form id="admin-settings-form" onsubmit="saveAdminSettings(event)" class="space-y-4">
+                            <div>
+                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Nama Aplikasi</label>
+                                <input id="admin-app-name" type="text" required class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-purple-500">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Slogan Aplikasi</label>
+                                <input id="admin-app-tagline" type="text" required class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-purple-500">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Metode Memasukkan Logo</label>
+                                <div class="grid grid-cols-2 gap-2 mb-3">
+                                    <button type="button" onclick="setLogoMethod('preset')" id="btn-logo-preset" class="py-2 px-3 border rounded-xl text-xs font-bold transition-all bg-purple-50 border-purple-300 text-purple-700">Preset Emoji</button>
+                                    <button type="button" onclick="setLogoMethod('upload')" id="btn-logo-upload" class="py-2 px-3 border rounded-xl text-xs font-bold transition-all bg-slate-50 border-slate-200 text-slate-600">Unggah Gambar</button>
+                                </div>
+
+                                <!-- Logo Preset Box -->
+                                <div id="logo-preset-picker" class="space-y-2">
+                                    <label class="block text-[10px] font-bold text-slate-400">Pilih Emoji Logo</label>
+                                    <select id="admin-logo-emoji" onchange="previewAdminLogo(this.value)" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-purple-500">
+                                        <option value="🤝">🤝 Tangan Berjabat / Kerjasama</option>
+                                        <option value="🎒">🎒 Tas Sekolah / Kewirausahaan</option>
+                                        <option value="🛍️">🛍️ Tas Belanja Kreatif</option>
+                                        <option value="💎">💎 Produk Unggulan</option>
+                                        <option value="💡">💡 Ide & Karya Siswa</option>
+                                        <option value="🎪">🎪 Market Day / Bazar</option>
+                                        <option value="🏫">🏫 Sekolah Berdaya</option>
+                                    </select>
+                                </div>
+
+                                <!-- Logo File Box -->
+                                <div id="logo-upload-picker" class="space-y-2 hidden">
+                                    <label class="block text-[10px] font-bold text-slate-400">Unggah File Foto Logo</label>
+                                    <label class="bg-slate-100 border border-slate-300 hover:bg-slate-200 text-slate-700 px-4 py-2.5 rounded-xl text-xs font-bold cursor-pointer flex items-center justify-center gap-2">
+                                        <i data-lucide="upload" class="w-4 h-4"></i>
+                                        <span>Unggah Logo Baru</span>
+                                        <input type="file" id="admin-logo-file" accept="image/*" onchange="handleAdminLogoUpload(event)" class="hidden">
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Preview Logo Baru -->
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-400 mb-1">Pratinjau Logo Laman Utama</label>
+                                <div class="w-full h-24 bg-slate-100 rounded-xl flex items-center justify-center border-2 border-dashed border-slate-200 overflow-hidden" id="admin-logo-preview">
+                                    <!-- Dimuat dari JavaScript -->
+                                </div>
+                                <input type="hidden" id="admin-logo-value">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Warna Latar Belakang Laman Utama</label>
+                                <select id="admin-bg-picker" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-purple-500">
+                                    <option value="bg-slate-50">Default (Putih Abu)</option>
+                                    <option value="bg-emerald-50">Hijau Pastel (Segar)</option>
+                                    <option value="bg-blue-50">Biru Pastel (Modern)</option>
+                                    <option value="bg-amber-50">Kuning Pastel (Hangat)</option>
+                                    <option value="bg-rose-50">Merah Muda Pastel (Ceria)</option>
+                                    <option value="bg-indigo-50">Indigo (Elegan)</option>
+                                </select>
+                            </div>
+
+                            <button type="submit" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-2.5 px-4 rounded-xl text-sm shadow-md transition-colors">
+                                Simpan Identitas & Tampilan
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="bg-red-50 border border-red-150 rounded-2xl p-6 shadow-sm space-y-3">
+                        <h4 class="text-sm font-extrabold text-red-800 flex items-center gap-2">
+                            <i data-lucide="alert-triangle"></i> Zone Bahaya Admin
+                        </h4>
+                        <p class="text-xs text-red-600 leading-relaxed">
+                            Opsi di bawah akan menghapus seluruh database penyimpanan internal browser Anda. Gunakan hanya jika ingin mereset aplikasi ke pengaturan pabrik.
+                        </p>
+                        <button onclick="resetSystemData()" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-3 rounded-xl text-xs transition-colors">
+                            Reset Semua Data Aplikasi
+                        </button>
+                    </div>
+                </div>
+
+                <!-- SISI KANAN: PANTAU SELURUH PRODUK DAN TRANSAKSI KESELURUHAN -->
+                <div class="lg:col-span-2 space-y-6">
+                    <!-- Ringkasan Statistik -->
+                    <div class="grid grid-cols-3 gap-4">
+                        <div class="bg-white border border-slate-100 p-4 rounded-2xl shadow-sm">
+                            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Total Produk</span>
+                            <span id="stat-total-products" class="text-2xl font-extrabold text-slate-900">0</span>
+                        </div>
+                        <div class="bg-white border border-slate-100 p-4 rounded-2xl shadow-sm">
+                            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Total Transaksi</span>
+                            <span id="stat-total-orders" class="text-2xl font-extrabold text-slate-900">0</span>
+                        </div>
+                        <div class="bg-white border border-slate-100 p-4 rounded-2xl shadow-sm">
+                            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Pesan Aktif</span>
+                            <span id="stat-total-messages" class="text-2xl font-extrabold text-slate-900">0</span>
+                        </div>
+                    </div>
+
+                    <!-- List Transaksi Keseluruhan -->
+                    <div class="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm">
+                        <h3 class="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
+                            <i data-lucide="list-ordered" class="text-purple-500"></i> Rekap Semua Transaksi Pelanggan
+                        </h3>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-xs border-collapse">
+                                <thead>
+                                    <tr class="border-b border-slate-150 text-slate-400 font-bold">
+                                        <th class="py-3 px-2">ID & Waktu</th>
+                                        <th class="py-3 px-2">Produk</th>
+                                        <th class="py-3 px-2">Penjual & Kontak</th>
+                                        <th class="py-3 px-2">Pembeli & Alamat</th>
+                                        <th class="py-3 px-2 text-right">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="admin-transactions-table">
+                                    <!-- Dimuat dinamis oleh JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-white border-t border-slate-100 py-6 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-sm text-slate-500" id="app-footer-text">&copy; 2026 My MarketKi. Dibuat untuk mendukung pembelajaran kewirausahaan praktis.</p>
+        </div>
+    </footer>
+
+
+    <!-- ================= MODALS & FORMS ================= -->
+
+    <!-- MODAL 1: ADD / EDIT PRODUCT -->
+    <div id="product-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-2xl max-w-xl w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+            <button onclick="closeProductModal()" class="absolute right-4 top-4 text-slate-400 hover:text-slate-600">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+            <h3 id="product-modal-title" class="text-xl font-extrabold text-slate-900 mb-6">Tambah Barang Jualan Baru</h3>
+            
+            <form id="product-form" onsubmit="saveProduct(event)" class="space-y-4">
+                <input type="hidden" id="edit-product-id">
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Nama Produk</label>
+                        <input id="prod-name" type="text" required placeholder="Contoh: Kue Kering" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Kategori</label>
+                        <select id="prod-category" required class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500">
+                            <option value="makanan">Makanan (Roti, Kue, Donat, Keripik, dll)</option>
+                            <option value="minuman">Minuman Kemasan</option>
+                            <option value="aksesoris">Aksesoris & Lilin Aromaterapi (Gantungan, Stiker, Kaos, dll)</option>
+                            <option value="kerajinan">Kerajinan, Poster & Spanduk</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Harga Barang (Rp)</label>
+                        <input id="prod-price" type="number" required placeholder="Contoh: 15000" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Gambar Produk (Preset / Upload)</label>
+                        <div class="flex gap-2">
+                            <select id="prod-image-preset" onchange="useImagePreset(this.value)" class="flex-grow px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-blue-500">
+                                <option value="">-- Pilih Emoji/Ikon Preset --</option>
+                                <option value="🍞">🍞 Roti / Bakery</option>
+                                <option value="🍰">🍰 Kue Slice</option>
+                                <option value="🍩">🍩 Donat</option>
+                                <option value="🍿">🍿 Keripik / Cemilan</option>
+                                <option value="🧃">🧃 Minuman Kemasan</option>
+                                <option value="🔑">🔑 Gantungan Kunci</option>
+                                <option value="🏷️">🏷️ Stiker Kreatif</option>
+                                <option value="👜">👜 Tote Bag / Kaos</option>
+                                <option value="🕯️">🕯️ Lilin Aromaterapi</option>
+                                <option value="🧼">🧼 Sabun Handmade</option>
+                                <option value="🎨">🎨 Kerajinan Tangan</option>
+                                <option value="🖼️">🖼️ Poster / Spanduk</option>
+                            </select>
+                            <label class="bg-slate-100 border border-slate-300 hover:bg-slate-200 text-slate-700 px-3 py-2 rounded-xl text-xs font-semibold cursor-pointer flex items-center justify-center gap-1">
+                                <i data-lucide="upload" class="w-3.5 h-3.5"></i>
+                                <span>Upload</span>
+                                <input type="file" id="prod-image-file" accept="image/*" onchange="handleImageUpload(event)" class="hidden">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Preview Area Gambar -->
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1">Pratinjau Gambar</label>
+                    <div class="w-full h-32 bg-slate-100 rounded-xl flex items-center justify-center border-2 border-dashed border-slate-200 overflow-hidden" id="prod-image-preview-container">
+                        <span id="prod-image-preview-placeholder" class="text-3xl text-slate-400">Pilih atau unggah gambar</span>
+                    </div>
+                    <input type="hidden" id="prod-image-value">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Deskripsi Produk</label>
+                    <textarea id="prod-desc" required rows="3" placeholder="Jelaskan detail rasa, bahan, ukuran, atau keistimewaan produk Anda..." class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500"></textarea>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Nama Penjual</label>
+                        <input id="prod-seller-name" type="text" required placeholder="Contoh: Siswa Kelas XI A" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Nomor WA / Email Kontak</label>
+                        <input id="prod-seller-contact" type="text" required placeholder="WA: 08123... / Email" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-blue-500">
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-xl text-sm shadow-md shadow-blue-100 transition-colors mt-4">
+                    Simpan dan Unggah ke Etalase (Membeli)
+                </button>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- MODAL 2: BUY KUESIONER -->
+    <div id="buy-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
+            <button onclick="closeBuyModal()" class="absolute right-4 top-4 text-slate-400 hover:text-slate-600">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+            
+            <div class="flex items-center gap-2 mb-4">
+                <div class="w-10 h-10 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center">
+                    <i data-lucide="clipboard-list"></i>
+                </div>
+                <div>
+                    <h3 class="text-lg font-extrabold text-slate-900">Formulir Pemesanan</h3>
+                    <p class="text-xs text-slate-500">Isi kuesioner pengiriman produk berikut ini.</p>
+                </div>
+            </div>
+
+            <!-- Ringkasan Produk yang dibeli -->
+            <div class="p-3 bg-slate-50 rounded-xl flex items-center gap-3 mb-5 text-sm border border-slate-100">
+                <span id="buy-prod-img" class="text-3xl"></span>
+                <div>
+                    <h4 id="buy-prod-name" class="font-bold text-slate-950">Nama Produk</h4>
+                    <p class="text-emerald-600 font-extrabold text-xs" id="buy-prod-price">Rp 0</p>
+                </div>
+            </div>
+            
+            <form id="checkout-form" onsubmit="processCheckout(event)" class="space-y-4">
+                <input type="hidden" id="buy-prod-id">
+                
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Nama Anda (Pembeli)</label>
+                    <input id="buyer-name" type="text" required placeholder="Nama Lengkap / Kelompok" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-emerald-500">
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Tempat (Kelas / Divisi)</label>
+                        <input id="buyer-place" type="text" required placeholder="Contoh: Kelas XII B" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-emerald-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-1.5">Alamat Pengiriman</label>
+                        <input id="buyer-address" type="text" required placeholder="Gedung, lantai, atau alamat rumah" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-emerald-500">
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-4 rounded-xl text-sm shadow-md shadow-emerald-100 transition-colors mt-4">
+                    Konfirmasi & Pesan Sekarang
+                </button>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- MODAL 3: BUYER INTEGRATED CHAT -->
+    <div id="buyer-chat-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-2xl max-w-md w-full h-[500px] shadow-2xl relative flex flex-col">
+            <button onclick="closeBuyerChatModal()" class="absolute right-4 top-4 text-slate-400 hover:text-slate-600 z-10">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+
+            <!-- Chat Header -->
+            <div class="p-4 border-b border-slate-100 flex items-center gap-3">
+                <div class="w-10 h-10 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center">
+                    <i data-lucide="message-circle" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <h3 class="font-extrabold text-slate-900 text-sm" id="buyer-chat-title">Hubungi Penjual</h3>
+                    <p class="text-xs text-slate-500" id="buyer-chat-subtitle">Saling Mengirim Pesan</p>
+                </div>
+            </div>
+
+            <!-- Chat Log -->
+            <div id="buyer-chat-container" class="flex-grow overflow-y-auto p-4 space-y-3 bg-slate-50 text-sm">
+                <!-- Chat messages loaded dynamically -->
+            </div>
+
+            <!-- Chat Input -->
+            <div class="p-3 border-t border-slate-100 flex gap-2">
+                <input id="buyer-chat-input" type="text" placeholder="Ketik pesan untuk penjual..." class="flex-grow px-3.5 py-2 text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:border-emerald-500">
+                <button onclick="sendBuyerMessage()" class="bg-emerald-600 hover:bg-emerald-700 text-white p-2.5 rounded-xl transition-colors">
+                    <i data-lucide="send" class="w-4 h-4"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 4: ADMIN AUTH (NEW) -->
+    <div id="admin-auth-modal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-[60] flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl relative">
+            <button onclick="closeAdminAuthModal()" class="absolute right-4 top-4 text-slate-400 hover:text-slate-600">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+            <div class="mb-4 text-center">
+                <div class="w-12 h-12 bg-purple-100 text-purple-600 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <i data-lucide="lock" class="w-6 h-6"></i>
+                </div>
+                <h3 class="text-lg font-extrabold text-slate-900">Akses Admin</h3>
+                <p class="text-xs text-slate-500">Masukkan Kunci Admin untuk melanjutkan.</p>
+            </div>
+            <div class="space-y-4">
+                <input id="admin-key-input" type="password" placeholder="Masukkan Kunci Admin..." class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:border-purple-500">
+                <button onclick="verifyAdminKey()" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-xl text-sm transition-all shadow-md shadow-purple-200">
+                    Buka Dasbor Admin
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ================= JAVASCRIPT ================= -->
+    <script>
+        // --- 1. STATE & DATA INITIALIZATION ---
+        
+        // Mock default data if localStorage is empty
+        const defaultProducts = [
+            {
+                id: "1",
+                name: "Roti Keju Panggang",
+                category: "makanan",
+                price: 12000,
+                desc: "Roti panggang mentega bertabur keju premium yang lumer di mulut. Sangat sehat dan lezat.",
+                image: "🍞",
+                sellerName: "Budi (XII IPA 1)",
+                contact: "081234567890"
+            },
+            {
+                id: "2",
+                name: "Donat Gula Halus",
+                category: "makanan",
+                price: 8000,
+                desc: "Donat kentang super empuk dengan taburan gula halus salju manis organik.",
+                image: "🍩",
+                sellerName: "Yanti (Orang Tua Siswa)",
+                contact: "yanti@email.com"
+            },
+            {
+                id: "3",
+                name: "Es Teh Manis Kemasan",
+                category: "minuman",
+                price: 5000,
+                desc: "Minuman kemasan es teh seduh alami daun melati segar pelepas dahaga.",
+                image: "🧃",
+                sellerName: "Rian (OSIS)",
+                contact: "08987654321"
+            },
+            {
+                id: "4",
+                name: "Tote Bag Lukis Kucing",
+                category: "aksesoris",
+                price: 45000,
+                desc: "Tote bag kanvas tebal ramah lingkungan dengan lukisan tangan desain kucing buatan siswa.",
+                image: "👜",
+                sellerName: "Kelas XI Seni Rupa",
+                contact: "seni_xi@email.com"
+            },
+            {
+                id: "5",
+                name: "Lilin Aromaterapi Lavender",
+                category: "aksesoris",
+                price: 25000,
+                desc: "Lilin penenang aroma terapi dari minyak esensial bunga lavender murni.",
+                image: "🕯️",
+                sellerName: "Ibu Indah (Guru Prakarya)",
+                contact: "082345678912"
+            },
+            {
+                id: "6",
+                name: "Poster Motivasi Kelas",
+                category: "kerajinan",
+                price: 15000,
+                desc: "Poster resolusi tinggi bertema motivasi belajar keren untuk menghias dinding kelas.",
+                image: "🖼️",
+                sellerName: "Tim Mading Sekolah",
+                contact: "mading@email.com"
+            }
+        ];
+
+        // Load data from Local Storage or assign defaults
+        let products = JSON.parse(localStorage.getItem('mymarketki_products')) || defaultProducts;
+        let transactions = JSON.parse(localStorage.getItem('mymarketki_transactions')) || [];
+        let messages = JSON.parse(localStorage.getItem('mymarketki_messages')) || [];
+
+        // App Identity & Logo Settings (Admin Customization)
+        let appName = localStorage.getItem('mymarketki_name') || "My MarketKi";
+        let appTagline = localStorage.getItem('mymarketki_tagline') || "Beri & Terima ke Kebaikan";
+        let appLogo = localStorage.getItem('mymarketki_logo') || "default"; // "default" or Base64 / Emoji
+        let logoMethod = localStorage.getItem('mymarketki_logo_method') || "preset";
+
+        // App States
+        let currentTab = 'home';
+        let currentFilter = 'semua';
+        let selectedProductForChat = null;
+        let selectedChatUserId = null; // Used by seller to chat with a specific buyer
+
+        // On Page Load
+        window.addEventListener('load', () => {
+            lucide.createIcons();
+            // Populate localStorage if it was empty
+            saveToStorage();
+            
+            // Render App Logo and Identity
+            updateAppIdentity();
+            
+            // Render initial screen
+            switchTab('home');
+            
+            // Check incoming notifications counter
+            updateOrderBadge();
+        });
+
+        // Save data to localStorage helper
+        function saveToStorage() {
+            localStorage.setItem('mymarketki_products', JSON.stringify(products));
+            localStorage.setItem('mymarketki_transactions', JSON.stringify(transactions));
+            localStorage.setItem('mymarketki_messages', JSON.stringify(messages));
+            
+            localStorage.setItem('mymarketki_name', appName);
+            localStorage.setItem('mymarketki_tagline', appTagline);
+            localStorage.setItem('mymarketki_logo', appLogo);
+            localStorage.setItem('mymarketki_logo_method', logoMethod);
+        }
+
+
+        // --- 2. THEME ADAPTATION PER PRODUCT CATEGORY ---
+        // Dynamically changes background subtle accents or glows based on selected product category
+        function adjustThemeColor(category) {
+            const body = document.body;
+            body.className = "bg-slate-50 text-slate-800 min-h-screen flex flex-col transition-colors duration-300";
+            
+            if (category === 'makanan') {
+                body.classList.add('selection:bg-amber-200');
+            } else if (category === 'minuman') {
+                body.classList.add('selection:bg-sky-200');
+            } else if (category === 'aksesoris') {
+                body.classList.add('selection:bg-indigo-200');
+            } else if (category === 'kerajinan') {
+                body.classList.add('selection:bg-emerald-200');
+            } else if (category === 'admin') {
+                body.classList.add('selection:bg-purple-200');
+            }
+        }
+
+
+        // --- 3. TOAST NOTIFICATION SYSTEM (ALERT ALTERNATIVE) ---
+        function showToast(title, message, type = 'success') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            
+            const colors = {
+                success: 'bg-white border-emerald-500 text-emerald-800 shadow-emerald-500/10',
+                error: 'bg-white border-red-500 text-red-800 shadow-red-500/10',
+                info: 'bg-white border-blue-500 text-blue-800 shadow-blue-500/10'
+            };
+
+            const icons = {
+                success: 'check-circle',
+                error: 'alert-triangle',
+                info: 'info'
+            };
+
+            toast.className = `flex gap-3 p-4 border-l-4 rounded-xl shadow-xl transition-all duration-300 transform translate-y-2 opacity-0 ${colors[type]}`;
+            toast.innerHTML = `
+                <div class="mt-0.5"><i data-lucide="${icons[type]}" class="w-5 h-5"></i></div>
+                <div>
+                    <h4 class="font-extrabold text-sm text-slate-900">${title}</h4>
+                    <p class="text-xs text-slate-600 mt-0.5">${message}</p>
+                </div>
+            `;
+
+            container.appendChild(toast);
+            lucide.createIcons();
+
+            // Trigger animation
+            setTimeout(() => {
+                toast.classList.remove('translate-y-2', 'opacity-0');
+            }, 10);
+
+            // Auto remove
+            setTimeout(() => {
+                toast.classList.add('translate-y-2', 'opacity-0');
+                setTimeout(() => {
+                    toast.remove();
+                }, 300);
+            }, 4000);
+        }
+
+
+        // --- 4. NAVIGATION TAB CONTROLLER ---
+        function switchTab(tabId) {
+            currentTab = tabId;
+
+            // Hide all tabs
+            document.getElementById('section-home').classList.add('hidden');
+            document.getElementById('section-menjual').classList.add('hidden');
+            document.getElementById('section-membeli').classList.add('hidden');
+            document.getElementById('section-admin').classList.add('hidden');
+
+            // Deactivate header buttons
+            document.getElementById('btn-tab-membeli').className = "px-3 sm:px-5 py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-200 flex items-center gap-1.5 text-slate-600 hover:text-slate-900";
+            document.getElementById('btn-tab-menjual').className = "px-3 sm:px-5 py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-200 flex items-center gap-1.5 text-slate-600 hover:text-slate-900";
+            document.getElementById('btn-tab-admin').className = "px-3 sm:px-5 py-2.5 rounded-lg text-xs sm:text-sm font-semibold transition-all duration-200 flex items-center gap-1.5 text-slate-600 hover:text-slate-900";
+
+            if (tabId === 'home') {
+                document.getElementById('section-home').classList.remove('hidden');
+                adjustThemeColor('default');
+            } else if (tabId === 'menjual') {
+                document.getElementById('section-menjual').classList.remove('hidden');
+                document.getElementById('btn-tab-menjual').className = "px-3 sm:px-5 py-2.5 rounded-lg text-xs sm:text-sm font-bold bg-blue-600 text-white flex items-center gap-1.5 shadow-md shadow-blue-500/15";
+                adjustThemeColor('kerajinan');
+                renderSellerProducts();
+                renderSellerOrders();
+                renderSellerChatSystem();
+            } else if (tabId === 'membeli') {
+                document.getElementById('section-membeli').classList.remove('hidden');
+                document.getElementById('btn-tab-membeli').className = "px-3 sm:px-5 py-2.5 rounded-lg text-xs sm:text-sm font-bold bg-emerald-600 text-white flex items-center gap-1.5 shadow-md shadow-emerald-500/15";
+                adjustThemeColor('default');
+                renderBuyerProducts();
+            } else if (tabId === 'admin') {
+                document.getElementById('section-admin').classList.remove('hidden');
+                document.getElementById('btn-tab-admin').className = "px-3 sm:px-5 py-2.5 rounded-lg text-xs sm:text-sm font-bold bg-purple-600 text-white flex items-center gap-1.5 shadow-md shadow-purple-500/15";
+                adjustThemeColor('admin');
+                renderAdminDashboard();
+            }
+        }
+
+
+        // --- 5. IMAGE PRESET & FILE UPLOAD HANDLING ---
+        function useImagePreset(emoji) {
+            const container = document.getElementById('prod-image-preview-container');
+            const previewVal = document.getElementById('prod-image-value');
+            
+            if (emoji) {
+                container.innerHTML = `<span class="text-6xl">${emoji}</span>`;
+                previewVal.value = emoji;
+            } else {
+                container.innerHTML = `<span id="prod-image-preview-placeholder" class="text-3xl text-slate-400">Pilih atau unggah gambar</span>`;
+                previewVal.value = "";
+            }
+        }
+
+        function handleImageUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const container = document.getElementById('prod-image-preview-container');
+                    const previewVal = document.getElementById('prod-image-value');
+                    
+                    container.innerHTML = `<img src="${e.target.result}" class="w-full h-full object-cover">`;
+                    previewVal.value = e.target.result; // Saves base64 string
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+
+        // --- 6. SELLER FUNCTIONS (LAMAN PERTAMA) ---
+        
+        function renderSellerProducts() {
+            const listContainer = document.getElementById('seller-products-list');
+            listContainer.innerHTML = "";
+
+            if (products.length === 0) {
+                listContainer.innerHTML = `
+                    <div class="col-span-2 text-center py-12 bg-slate-50 rounded-xl border-2 border-dashed border-slate-150">
+                        <i data-lucide="info" class="w-10 h-10 text-slate-400 mx-auto mb-2"></i>
+                        <p class="text-sm font-semibold text-slate-600">Belum ada barang jualan.</p>
+                        <p class="text-xs text-slate-400 mt-1">Klik tombol 'Tambah Produk Jualan' di atas untuk memulai dagangan.</p>
+                    </div>
+                `;
+                lucide.createIcons();
+                return;
+            }
+
+            products.forEach(p => {
+                const isPreset = p.image.length <= 4; // Checks if it's an Emoji vs Base64 image
+                const imageEl = isPreset 
+                    ? `<span class="text-4xl">${p.image}</span>` 
+                    : `<img src="${p.image}" class="w-16 h-16 rounded-lg object-cover">`;
+
+                listContainer.innerHTML += `
+                    <div class="bg-slate-50 border border-slate-100 p-4 rounded-xl flex items-center justify-between gap-3 group hover:border-blue-500 transition-all duration-200">
+                        <div class="flex items-center gap-3">
+                            <div class="w-16 h-16 bg-white border border-slate-150 rounded-lg flex items-center justify-center shadow-sm shrink-0 overflow-hidden">
+                                ${imageEl}
+                            </div>
+                            <div>
+                                <span class="inline-block text-[10px] font-bold uppercase tracking-wider text-blue-600 bg-blue-50 px-2 py-0.5 rounded">${p.category}</span>
+                                <h4 class="font-extrabold text-slate-900 text-sm truncate max-w-[150px] mt-0.5">${p.name}</h4>
+                                <p class="text-xs text-slate-500 font-semibold">Rp ${p.price.toLocaleString('id-ID')}</p>
+                                <p class="text-[10px] text-slate-400">Oleh: ${p.sellerName}</p>
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-1.5">
+                            <button onclick="editProduct('${p.id}')" class="p-1.5 bg-white border border-slate-200 hover:border-blue-500 text-slate-600 hover:text-blue-600 rounded-lg transition-colors" title="Edit Produk">
+                                <i data-lucide="edit-3" class="w-3.5 h-3.5"></i>
+                            </button>
+                            <button onclick="deleteProduct('${p.id}')" class="p-1.5 bg-white border border-slate-200 hover:border-red-500 text-slate-600 hover:text-red-600 rounded-lg transition-colors" title="Hapus Produk">
+                                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            lucide.createIcons();
+        }
+
+        function openAddProductModal() {
+            document.getElementById('product-modal-title').innerText = "Tambah Barang Jualan Baru";
+            document.getElementById('edit-product-id').value = "";
+            document.getElementById('product-form').reset();
+            document.getElementById('prod-image-value').value = "";
+            document.getElementById('prod-image-preview-container').innerHTML = `<span id="prod-image-preview-placeholder" class="text-3xl text-slate-400">Pilih atau unggah gambar</span>`;
+            
+            document.getElementById('product-modal').classList.remove('hidden');
+        }
+
+        function closeProductModal() {
+            document.getElementById('product-modal').classList.add('hidden');
+        }
+
+        function editProduct(id) {
+            const p = products.find(prod => prod.id === id);
+            if (!p) return;
+
+            document.getElementById('product-modal-title').innerText = "Edit Detail Jualan";
+            document.getElementById('edit-product-id').value = p.id;
+            
+            document.getElementById('prod-name').value = p.name;
+            document.getElementById('prod-category').value = p.category;
+            document.getElementById('prod-price').value = p.price;
+            document.getElementById('prod-desc').value = p.desc;
+            document.getElementById('prod-seller-name').value = p.sellerName;
+            document.getElementById('prod-seller-contact').value = p.contact;
+            
+            // Set image
+            const container = document.getElementById('prod-image-preview-container');
+            const previewVal = document.getElementById('prod-image-value');
+            previewVal.value = p.image;
+
+            const isPreset = p.image.length <= 4;
+            if (isPreset) {
+                container.innerHTML = `<span class="text-6xl">${p.image}</span>`;
+                document.getElementById('prod-image-preset').value = p.image;
+            } else {
+                container.innerHTML = `<img src="${p.image}" class="w-full h-full object-cover">`;
+                document.getElementById('prod-image-preset').value = "";
+            }
+
+            document.getElementById('product-modal').classList.remove('hidden');
+        }
+
+        function saveProduct(event) {
+            event.preventDefault();
+
+            const id = document.getElementById('edit-product-id').value;
+            const name = document.getElementById('prod-name').value;
+            const category = document.getElementById('prod-category').value;
+            const price = parseInt(document.getElementById('prod-price').value);
+            const desc = document.getElementById('prod-desc').value;
+            const sellerName = document.getElementById('prod-seller-name').value;
+            const contact = document.getElementById('prod-seller-contact').value;
+            const image = document.getElementById('prod-image-value').value || "📦";
+
+            if (id) {
+                // Edit existing product
+                const index = products.findIndex(p => p.id === id);
+                if (index !== -1) {
+                    products[index] = { id, name, category, price, desc, image, sellerName, contact };
+                    showToast("Produk Diperbarui", "Katalog jualan Anda berhasil diperbarui.", "success");
+                }
+            } else {
+                // Add new product
+                const newId = Date.now().toString();
+                products.push({ id: newId, name, category, price, desc, image, sellerName, contact });
+                showToast("Produk Diunggah", "Sukses mengunggah barang jualan baru!", "success");
+            }
+
+            saveToStorage(); // Data disimpan ke browser setiap ada perubahan
+            closeProductModal();
+            renderSellerProducts();
+        }
+
+        function deleteProduct(id) {
+            if (confirm("Apakah Anda yakin ingin menghapus produk ini dari katalog?")) {
+                products = products.filter(p => p.id !== id);
+                saveToStorage(); // Data diperbarui secara permanen saat penghapusan
+                renderSellerProducts();
+                showToast("Produk Dihapus", "Barang dagangan telah dihapus dari sistem.", "info");
+            }
+        }
+
+        // --- 7. BUYER FUNCTIONS (LAMAN KEDUA) ---
+
+        function filterCategory(category) {
+            currentFilter = category;
+            
+            // Adjust active buttons visual state
+            const buttons = document.querySelectorAll('.cat-btn');
+            buttons.forEach(btn => {
+                btn.className = "cat-btn bg-white border border-slate-200 text-slate-600 hover:border-emerald-500 font-medium text-xs px-4 py-2 rounded-full whitespace-nowrap transition-all duration-200";
+            });
+
+            event.target.className = "cat-btn active bg-emerald-600 text-white font-medium text-xs px-4 py-2 rounded-full whitespace-nowrap transition-all duration-200";
+            
+            adjustThemeColor(category);
+            renderBuyerProducts();
+        }
+
+        function renderBuyerProducts() {
+            const grid = document.getElementById('buyer-products-grid');
+            grid.innerHTML = "";
+
+            const searchQuery = document.getElementById('buyer-search').value.toLowerCase();
+
+            // Filter logic
+            const filtered = products.filter(p => {
+                const matchCategory = currentFilter === 'semua' || p.category === currentFilter;
+                const matchSearch = p.name.toLowerCase().includes(searchQuery) || p.sellerName.toLowerCase().includes(searchQuery);
+                return matchCategory && matchSearch;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full text-center py-16 bg-white border border-slate-150 rounded-2xl">
+                        <i data-lucide="package-open" class="w-12 h-12 text-slate-300 mx-auto mb-3"></i>
+                        <p class="text-base font-bold text-slate-600">Produk Tidak Ditemukan</p>
+                        <p class="text-xs text-slate-400 mt-1">Coba gunakan kata kunci pencarian lain atau pilih kategori berbeda.</p>
+                    </div>
+                `;
+                lucide.createIcons();
+                return;
+            }
+
+            filtered.forEach(p => {
+                const isPreset = p.image.length <= 4;
+                const imageEl = isPreset 
+                    ? `<span class="text-6xl select-none">${p.image}</span>` 
+                    : `<img src="${p.image}" class="w-full h-full object-cover">`;
+
+                grid.innerHTML += `
+                    <div class="bg-white border border-slate-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col group border-b-4 hover:border-b-emerald-500">
+                        <!-- Product Image Box -->
+                        <div class="h-44 bg-slate-50 flex items-center justify-center relative overflow-hidden shrink-0">
+                            ${imageEl}
+                            <span class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-[10px] font-extrabold uppercase tracking-widest text-slate-700 px-2 py-1 rounded-lg border border-slate-200/50">
+                                ${p.category}
+                            </span>
+                        </div>
+
+                        <!-- Product details -->
+                        <div class="p-5 flex-grow flex flex-col justify-between">
+                            <div>
+                                <h3 class="font-extrabold text-slate-900 text-base leading-snug group-hover:text-emerald-600 transition-colors">${p.name}</h3>
+                                <p class="text-[11px] text-slate-400 mt-1 flex items-center gap-1">
+                                    <i data-lucide="user" class="w-3 h-3 text-slate-300"></i> Penjual: <span class="font-semibold text-slate-600">${p.sellerName}</span>
+                                </p>
+                                <p class="text-xs text-slate-500 line-clamp-3 mt-3 font-medium leading-relaxed">${p.desc}</p>
+                            </div>
+
+                            <div class="mt-5 pt-4 border-t border-slate-50">
+                                <div class="flex items-baseline justify-between mb-3">
+                                    <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Harga</span>
+                                    <span class="text-base font-extrabold text-emerald-600">Rp ${p.price.toLocaleString('id-ID')}</span>
+                                </div>
+                                <div class="grid grid-cols-5 gap-2">
+                                    <button onclick="openBuyModal('${p.id}')" class="col-span-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-3 rounded-xl text-xs flex items-center justify-center gap-1 transition-colors shadow-sm">
+                                        <i data-lucide="shopping-cart" class="w-3.5 h-3.5"></i>
+                                        <span>Beli</span>
+                                    </button>
+                                    <button onclick="openBuyerChatModal('${p.id}')" class="col-span-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-2 px-2 rounded-xl text-xs flex items-center justify-center gap-1 transition-colors" title="Hubungi Penjual">
+                                        <i data-lucide="message-square" class="w-3.5 h-3.5"></i>
+                                        <span>Chat</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            lucide.createIcons();
+        }
+
+
+        // --- 8. KUESIONER PEMESANAN & TRANSAKSI (BUY MODAL) ---
+
+        function openBuyModal(productId) {
+            const p = products.find(prod => prod.id === productId);
+            if (!p) return;
+
+            document.getElementById('buy-prod-id').value = p.id;
+            document.getElementById('buy-prod-name').innerText = p.name;
+            document.getElementById('buy-prod-price').innerText = `Rp ${p.price.toLocaleString('id-ID')}`;
+            
+            const isPreset = p.image.length <= 4;
+            const imgContainer = document.getElementById('buy-prod-img');
+            if (isPreset) {
+                imgContainer.innerHTML = p.image;
+            } else {
+                imgContainer.innerHTML = `<img src="${p.image}" class="w-10 h-10 object-cover rounded-lg">`;
+            }
+
+            document.getElementById('buy-modal').classList.remove('hidden');
+        }
+
+        function closeBuyModal() {
+            document.getElementById('buy-modal').classList.add('hidden');
+        }
+
+        function processCheckout(event) {
+            event.preventDefault();
+
+            const prodId = document.getElementById('buy-prod-id').value;
+            const buyerName = document.getElementById('buyer-name').value;
+            const buyerPlace = document.getElementById('buyer-place').value;
+            const buyerAddress = document.getElementById('buyer-address').value;
+
+            const product = products.find(p => p.id === prodId);
+            if (!product) return;
+
+            const transactionId = "TRX-" + Date.now();
+            const newTransaction = {
+                id: transactionId,
+                productId: product.id,
+                productName: product.name,
+                price: product.price,
+                sellerName: product.sellerName,
+                sellerContact: product.contact,
+                buyerName,
+                buyerPlace,
+                buyerAddress,
+                timestamp: new Date().toLocaleString('id-ID'),
+                status: 'Baru'
+            };
+
+            transactions.unshift(newTransaction);
+            saveToStorage();
+
+            const autoMsg = `Halo Kak ${product.sellerName}! Saya baru saja memesan barang "${product.name}" Anda melalui formulir pembelian. Detail: Pengiriman ke ${buyerPlace} (${buyerAddress}). Mohon diproses ya!`;
+            
+            messages.push({
+                sender: 'buyer',
+                productId: product.id,
+                buyerName: buyerName,
+                message: autoMsg,
+                timestamp: new Date().toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'})
+            });
+            saveToStorage();
+
+            closeBuyModal();
+            showToast("Pesanan Berhasil", "Pesanan Anda berhasil dikirim! Penjual akan menerima notifikasi.", "success");
+            
+            triggerOutsideNotification(product, autoMsg);
+        }
+
+        function triggerOutsideNotification(product, messageText) {
+            const contact = product.contact.trim();
+            const encodedMessage = encodeURIComponent(messageText);
+            
+            const isEmail = contact.includes('@');
+            let contactLink = "";
+            let linkLabel = "";
+
+            if (isEmail) {
+                contactLink = `mailto:${contact}?subject=Pesanan%20My%20MarketKi&body=${encodedMessage}`;
+                linkLabel = "Kirim Email Langsung";
+            } else {
+                const cleanPhone = contact.replace(/\D/g, '');
+                const formattedPhone = cleanPhone.startsWith('0') ? '62' + cleanPhone.slice(1) : cleanPhone;
+                contactLink = `https://wa.me/${formattedPhone}?text=${encodedMessage}`;
+                linkLabel = "Chat WhatsApp Penjual";
+            }
+
+            const actionContainer = document.createElement('div');
+            actionContainer.className = "fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4";
+            actionContainer.id = "outside-notif-modal";
+            actionContainer.innerHTML = `
+                <div class="bg-white rounded-2xl max-w-sm w-full p-6 text-center shadow-2xl relative">
+                    <div class="w-14 h-14 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-8 h-8">
+                            <path d="M22 2 11 13M22 2l-7 20-4-9-9-4Z" />
+                        </svg>
+                    </div>
+                    <h3 class="text-lg font-extrabold text-slate-900 mb-2">Hubungi Penjual Langsung</h3>
+                    <p class="text-xs text-slate-500 mb-6">Hubungi penjual melalui kontak eksternalnya agar pesanan segera direspon.</p>
+                    <div class="flex flex-col gap-2">
+                        <a href="${contactLink}" target="_blank" onclick="document.getElementById('outside-notif-modal').remove()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-4 rounded-xl text-xs block transition-all shadow-md shadow-emerald-500/10">
+                            ${linkLabel}
+                        </a>
+                        <button onclick="document.getElementById('outside-notif-modal').remove()" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-3 px-4 rounded-xl text-xs transition-all">
+                            Tetap di Aplikasi
+                        </button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(actionContainer);
+        }
+
+        // --- 9. SELLER DASHBOARD MANAGE NOTIFICATIONS & ORDERS ---
+
+        function updateOrderBadge() {
+            const count = transactions.filter(t => t.status === 'Baru').length;
+            const badge = document.getElementById('order-badge');
+            if (badge) {
+                badge.innerText = `${count} Baru`;
+            }
+        }
+
+        function renderSellerOrders() {
+            const container = document.getElementById('seller-orders-list');
+            container.innerHTML = "";
+
+            if (transactions.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-8">
+                        <i data-lucide="inbox" class="w-8 h-8 text-slate-300 mx-auto mb-2"></i>
+                        <p class="text-xs font-semibold text-slate-500">Belum ada pesanan masuk.</p>
+                    </div>
+                `;
+                lucide.createIcons();
+                return;
+            }
+
+            transactions.forEach(t => {
+                const statusColor = t.status === 'Baru' ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800';
+                
+                container.innerHTML += `
+                    <div class="p-4 bg-slate-50 border border-slate-150 rounded-xl relative group hover:border-blue-500 transition-all duration-200">
+                        <span class="absolute top-3 right-3 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded ${statusColor}">
+                            ${t.status}
+                        </span>
+                        
+                        <span class="text-[10px] font-bold text-slate-400 block">${t.id} &bull; ${t.timestamp}</span>
+                        <h4 class="font-extrabold text-slate-900 text-sm mt-1">${t.productName}</h4>
+                        <p class="text-xs text-blue-600 font-bold mt-0.5">Total: Rp ${t.price.toLocaleString('id-ID')}</p>
+
+                        <div class="mt-3 p-2.5 bg-white border border-slate-100 rounded-lg text-xs space-y-1 text-slate-600">
+                            <p class="font-semibold text-slate-900"><i data-lucide="user" class="w-3.5 h-3.5 inline mr-1 text-slate-400"></i> Pembeli: <span class="text-slate-600 font-normal">${t.buyerName}</span></p>
+                            <p class="font-semibold text-slate-900"><i data-lucide="map-pin" class="w-3.5 h-3.5 inline mr-1 text-slate-400"></i> Tempat: <span class="text-slate-600 font-normal">${t.buyerPlace}</span></p>
+                            <p class="font-semibold text-slate-900"><i data-lucide="navigation" class="w-3.5 h-3.5 inline mr-1 text-slate-400"></i> Alamat: <span class="text-slate-600 font-normal">${t.buyerAddress}</span></p>
+                        </div>
+
+                        <div class="mt-3 flex gap-2 justify-end">
+                            ${t.status === 'Baru' ? `
+                                <button onclick="markOrderCompleted('${t.id}')" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-[10px] font-bold flex items-center gap-1 transition-colors">
+                                    <i data-lucide="check" class="w-3 h-3"></i> Tandai Selesai
+                                </button>
+                            ` : ''}
+                            <button onclick="openSellerContactBuyer('${t.id}')" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-[10px] font-bold flex items-center gap-1 transition-colors">
+                                <i data-lucide="message-square" class="w-3 h-3"></i> Hubungi Pembeli
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            lucide.createIcons();
+            updateOrderBadge();
+        }
+
+        function markOrderCompleted(id) {
+            const index = transactions.findIndex(t => t.id === id);
+            if (index !== -1) {
+                transactions[index].status = 'Selesai';
+                saveToStorage();
+                renderSellerOrders();
+                showToast("Pesanan Selesai", "Status pesanan telah diperbarui menjadi selesai.", "success");
+            }
+        }
+
+        function openSellerContactBuyer(transactionId) {
+            const t = transactions.find(item => item.id === transactionId);
+            if (!t) return;
+
+            selectedChatUserId = t.buyerName;
+            selectedProductForChat = products.find(p => p.id === t.productId) || { id: t.productId };
+            
+            renderSellerChatSystem();
+            document.getElementById('seller-chat-input').focus();
+        }
+
+
+        // --- 10. INTEGRATED CHAT SYSTEM (REALTIME SIMULATION) ---
+
+        function openBuyerChatModal(productId) {
+            const p = products.find(prod => prod.id === productId);
+            if (!p) return;
+
+            selectedProductForChat = p;
+            document.getElementById('buyer-chat-title').innerText = p.name;
+            document.getElementById('buyer-chat-subtitle').innerText = `Penjual: ${p.sellerName}`;
+            document.getElementById('buyer-chat-modal').classList.remove('hidden');
+
+            renderBuyerChatMessages();
+        }
+
+        function closeBuyerChatModal() {
+            document.getElementById('buyer-chat-modal').classList.add('hidden');
+            selectedProductForChat = null;
+        }
+
+        function renderBuyerChatMessages() {
+            const container = document.getElementById('buyer-chat-container');
+            container.innerHTML = "";
+
+            if (!selectedProductForChat) return;
+
+            const activeChats = messages.filter(m => m.productId === selectedProductForChat.id);
+
+            if (activeChats.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-10 text-slate-400">
+                        <p class="text-xs">Belum ada obrolan. Kirim pesan pertama Anda untuk menanyakan ketersediaan produk!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            activeChats.forEach(m => {
+                const isMe = m.sender === 'buyer';
+                const wrapperClass = isMe ? 'flex justify-end' : 'flex justify-start';
+                const bubbleClass = isMe ? 'bg-emerald-600 text-white rounded-br-none' : 'bg-white border border-slate-150 text-slate-800 rounded-bl-none';
+                
+                container.innerHTML += `
+                    <div class="${wrapperClass}">
+                        <div class="max-w-[80%] p-3 rounded-xl shadow-sm ${bubbleClass}">
+                            <p class="text-[10px] font-bold opacity-75 mb-0.5">${isMe ? 'Saya' : 'Penjual'}</p>
+                            <p class="leading-relaxed text-xs break-words">${m.message}</p>
+                            <span class="text-[9px] block text-right mt-1 opacity-60">${m.timestamp}</span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function sendBuyerMessage() {
+            const input = document.getElementById('buyer-chat-input');
+            const messageText = input.value.trim();
+            if (!messageText || !selectedProductForChat) return;
+
+            const newMsg = {
+                sender: 'buyer',
+                productId: selectedProductForChat.id,
+                buyerName: 'Pembeli Tamu',
+                message: messageText,
+                timestamp: new Date().toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'})
+            };
+
+            messages.push(newMsg);
+            saveToStorage();
+            input.value = "";
+            renderBuyerChatMessages();
+            showToast("Pesan Terkirim", "Pesan Anda berhasil dikirim ke Penjual.", "info");
+        }
+
+        function renderSellerChatSystem() {
+            const chatRoomsContainer = document.getElementById('chat-rooms-list');
+            const messagesContainer = document.getElementById('chat-messages-container');
+            
+            chatRoomsContainer.innerHTML = "";
+
+            const chatUsers = [...new Set(messages.map(m => m.buyerName))];
+
+            if (chatUsers.length === 0) {
+                chatRoomsContainer.innerHTML = `<span class="text-slate-400">Belum ada obrolan masuk</span>`;
+                messagesContainer.innerHTML = `<p class="text-center text-slate-400 text-xs my-auto">Pesan masuk dari pembeli akan muncul di sini.</p>`;
+                document.getElementById('seller-chat-input').disabled = true;
+                document.getElementById('seller-send-btn').disabled = true;
+                return;
+            }
+
+            chatUsers.forEach(user => {
+                const isActive = selectedChatUserId === user;
+                const activeClass = isActive ? 'bg-blue-600 text-white font-bold' : 'bg-slate-100 text-slate-600 hover:bg-slate-200';
+                chatRoomsContainer.innerHTML += `
+                    <button onclick="selectSellerChatRoom('${user}')" class="px-3 py-1.5 rounded-lg transition-all duration-150 shrink-0 ${activeClass}">
+                        ${user}
+                    </button>
+                `;
+            });
+
+            if (selectedChatUserId) {
+                messagesContainer.innerHTML = "";
+                document.getElementById('seller-chat-input').disabled = false;
+                document.getElementById('seller-send-btn').disabled = false;
+
+                const roomMsgs = messages.filter(m => m.buyerName === selectedChatUserId);
+
+                roomMsgs.forEach(m => {
+                    const isMe = m.sender === 'seller';
+                    const wrapperClass = isMe ? 'flex justify-end' : 'flex justify-start';
+                    const bubbleClass = isMe ? 'bg-blue-600 text-white rounded-br-none' : 'bg-white border border-slate-150 text-slate-800 rounded-bl-none';
+                    
+                    messagesContainer.innerHTML += `
+                        <div class="${wrapperClass}">
+                            <div class="max-w-[80%] p-2.5 rounded-lg shadow-sm ${bubbleClass}">
+                                <p class="text-[9px] font-bold opacity-75 mb-0.5">${isMe ? 'Saya' : m.buyerName}</p>
+                                <p class="leading-relaxed text-xs break-words">${m.message}</p>
+                                <span class="text-[8px] block text-right mt-1 opacity-65">${m.timestamp}</span>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }
+        }
+
+        function selectSellerChatRoom(userName) {
+            selectedChatUserId = userName;
+            const userFirstMsg = messages.find(m => m.buyerName === userName);
+            if (userFirstMsg) {
+                selectedProductForChat = products.find(p => p.id === userFirstMsg.productId) || { id: userFirstMsg.productId };
+            }
+            renderSellerChatSystem();
+        }
+
+        function sendSellerMessage() {
+            const input = document.getElementById('seller-chat-input');
+            const text = input.value.trim();
+            if (!text || !selectedChatUserId || !selectedProductForChat) return;
+
+            const newMsg = {
+                sender: 'seller',
+                productId: selectedProductForChat.id,
+                buyerName: selectedChatUserId,
+                message: text,
+                timestamp: new Date().toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'})
+            };
+
+            messages.push(newMsg);
+            saveToStorage();
+            input.value = "";
+            renderSellerChatSystem();
+        }
+
+        // --- 11. ADMIN PANEL FUNCTIONS (TEMPAT KHUSUS ADMIN) ---
+
+        function openAdminAuthModal() {
+            document.getElementById('admin-auth-modal').classList.remove('hidden');
+            document.getElementById('admin-key-input').value = "";
+            document.getElementById('admin-key-input').focus();
+        }
+
+        function closeAdminAuthModal() {
+            document.getElementById('admin-auth-modal').classList.add('hidden');
+        }
+
+        function verifyAdminKey() {
+            const key = document.getElementById('admin-key-input').value;
+            // Ganti 'admin123' dengan kunci rahasia Anda
+            const SECRET_KEY = "admin123"; 
+
+            if (key === SECRET_KEY) {
+                closeAdminAuthModal();
+                switchTab('admin');
+                showToast("Akses Diberikan", "Selamat datang di dasbor admin.", "success");
+            } else {
+                showToast("Kunci Salah", "Kunci Admin tidak valid, coba lagi.", "error");
+            }
+        }
+
+        function updateAppIdentity() {
+            // Update Title Brand
+            document.title = `${appName} - Platform Jual Beli`;
+            
+            // Apply Background
+            const bgClass = localStorage.getItem('mymarketki_bg') || 'bg-slate-50';
+            const homeSection = document.getElementById('section-home');
+            // Remove old background classes (simplified regex approach)
+            homeSection.className = homeSection.className.replace(/bg-\w+-\d+/g, '').trim() + " " + bgClass;
+
+            // Render Brand Header & footer texts
+            document.getElementById('app-header-title').innerHTML = appName.includes("MarketKi") 
+                ? appName.replace("MarketKi", "<span class='text-emerald-600'>MarketKi</span>") 
+                : appName;
+            document.getElementById('app-header-tagline').innerText = appTagline;
+            document.getElementById('app-footer-text').innerHTML = `&copy; 2026 ${appName}. Dibuat untuk mendukung pembelajaran kewirausahaan praktis.`;
+            
+            // Render Hero Identity on landing page
+            document.getElementById('app-hero-title').innerHTML = appName.includes("MarketKi") 
+                ? `Selamat Datang di <span class='text-emerald-600'>${appName}</span>` 
+                : `Selamat Datang di ${appName}`;
+            document.getElementById('app-hero-desc').innerText = `Aplikasi praktis untuk guru, orang tua, siswa, dan warga sekitar guna mendukung kewirausahaan mandiri di ${appName}. Jual barangmu atau temukan berbagai produk berkualitas!`;
+
+            // RENDER LOGO (HEADER & LANDING PAGE)
+            const headerLogoContainer = document.getElementById('header-logo-container');
+            const homeLogoContainer = document.getElementById('home-logo-container');
+
+            let logoHtml = "";
+            if (appLogo === "default") {
+                // Default SVG Logo
+                logoHtml = `
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-full h-full p-2.5">
+                        <path d="M10 11V6a4 4 0 0 0-8 0v5h8Z" />
+                        <path d="M2 11h8" />
+                        <path d="M14 13v5a4 4 0 0 0 8 0v-5h-8Z" />
+                        <path d="M22 13h-8" />
+                        <path d="m10 15 2 2 2-2" />
+                    </svg>
+                `;
+            } else if (appLogo.length <= 4) {
+                // Preset / Emoji logo
+                logoHtml = `<span class="text-3xl select-none">${appLogo}</span>`;
+            } else {
+                // Uploaded base64 image URL
+                logoHtml = `<img src="${appLogo}" class="w-full h-full object-cover">`;
+            }
+
+            headerLogoContainer.innerHTML = logoHtml;
+            
+            // Adjust size slightly for landing page logo container
+            let homeLogoHtml = "";
+            if (appLogo === "default") {
+                homeLogoHtml = `
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-16 h-16 text-emerald-600">
+                        <path d="M10 11V6a4 4 0 0 0-8 0v5h8Z" />
+                        <path d="M2 11h8" />
+                        <path d="M14 13v5a4 4 0 0 0 8 0v-5h-8Z" />
+                        <path d="M22 13h-8" />
+                        <path d="m10 15 2 2 2-2" />
+                    </svg>
+                `;
+            } else if (appLogo.length <= 4) {
+                homeLogoHtml = `<span class="text-6xl select-none">${appLogo}</span>`;
+            } else {
+                homeLogoHtml = `<img src="${appLogo}" class="w-full h-full object-cover">`;
+            }
+            homeLogoContainer.innerHTML = homeLogoHtml;
+        }
+
+        function setLogoMethod(method) {
+            logoMethod = method;
+            const btnPreset = document.getElementById('btn-logo-preset');
+            const btnUpload = document.getElementById('btn-logo-upload');
+            const presetPicker = document.getElementById('logo-preset-picker');
+            const uploadPicker = document.getElementById('logo-upload-picker');
+
+            if (method === 'preset') {
+                btnPreset.className = "py-2 px-3 border rounded-xl text-xs font-bold transition-all bg-purple-50 border-purple-300 text-purple-700";
+                btnUpload.className = "py-2 px-3 border rounded-xl text-xs font-bold transition-all bg-slate-50 border-slate-200 text-slate-600";
+                presetPicker.classList.remove('hidden');
+                uploadPicker.classList.add('hidden');
+                
+                // Set default emoji
+                const emoji = document.getElementById('admin-logo-emoji').value;
+                previewAdminLogo(emoji);
+            } else {
+                btnPreset.className = "py-2 px-3 border rounded-xl text-xs font-bold transition-all bg-slate-50 border-slate-200 text-slate-600";
+                btnUpload.className = "py-2 px-3 border rounded-xl text-xs font-bold transition-all bg-purple-50 border-purple-300 text-purple-700";
+                presetPicker.classList.add('hidden');
+                uploadPicker.classList.remove('hidden');
+                
+                // Load existing uploaded file preview if any, or clear
+                const currentVal = document.getElementById('admin-logo-value').value;
+                if (currentVal && currentVal.length > 4) {
+                    previewAdminLogo(currentVal);
+                } else {
+                    document.getElementById('admin-logo-preview').innerHTML = `<span class="text-xs text-slate-400">Silakan unggah logo baru</span>`;
+                }
+            }
+        }
+
+        function previewAdminLogo(value) {
+            const previewContainer = document.getElementById('admin-logo-preview');
+            const inputVal = document.getElementById('admin-logo-value');
+            inputVal.value = value;
+
+            if (!value || value === "default") {
+                previewContainer.innerHTML = `
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-12 h-12 text-slate-400">
+                        <path d="M10 11V6a4 4 0 0 0-8 0v5h8Z" />
+                        <path d="M2 11h8" />
+                        <path d="M14 13v5a4 4 0 0 0 8 0v-5h-8Z" />
+                        <path d="M22 13h-8" />
+                        <path d="m10 15 2 2 2-2" />
+                    </svg>
+                `;
+            } else if (value.length <= 4) {
+                previewContainer.innerHTML = `<span class="text-5xl">${value}</span>`;
+            } else {
+                previewContainer.innerHTML = `<img src="${value}" class="w-full h-full object-cover">`;
+            }
+        }
+
+        function handleAdminLogoUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewAdminLogo(e.target.result);
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function renderAdminDashboard() {
+            // Stats count
+            document.getElementById('stat-total-products').innerText = products.length;
+            document.getElementById('stat-total-orders').innerText = transactions.length;
+            document.getElementById('stat-total-messages').innerText = messages.length;
+
+            // Load setting inputs with current state
+            document.getElementById('admin-app-name').value = appName;
+            document.getElementById('admin-app-tagline').value = appTagline;
+            document.getElementById('admin-logo-value').value = appLogo;
+            document.getElementById('admin-bg-picker').value = localStorage.getItem('mymarketki_bg') || 'bg-slate-50';
+
+            // Initialize correct picker view
+            setLogoMethod(logoMethod);
+            if (logoMethod === 'preset' && appLogo.length <= 4) {
+                document.getElementById('admin-logo-emoji').value = appLogo;
+            }
+            previewAdminLogo(appLogo);
+
+            // Render transaction table list
+            const tableBody = document.getElementById('admin-transactions-table');
+            tableBody.innerHTML = "";
+
+            if (transactions.length === 0) {
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="5" class="text-center py-8 text-slate-400 text-xs">Belum ada data transaksi transaksi masuk di sistem.</td>
+                    </tr>
+                `;
+                return;
+            }
+
+            transactions.forEach(t => {
+                const statusBadge = t.status === 'Baru' 
+                    ? `<span class="bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded text-[10px] uppercase">Baru</span>` 
+                    : `<span class="bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded text-[10px] uppercase">Selesai</span>`;
+
+                tableBody.innerHTML += `
+                    <tr class="border-b border-slate-100 text-slate-700 hover:bg-slate-50 transition-colors">
+                        <td class="py-3 px-2 font-mono text-[10px] text-slate-400">
+                            <strong>${t.id}</strong><br>${t.timestamp}
+                        </td>
+                        <td class="py-3 px-2 font-semibold">
+                            ${t.productName}<br>
+                            <span class="text-emerald-600 font-bold">Rp ${t.price.toLocaleString('id-ID')}</span>
+                        </td>
+                        <td class="py-3 px-2">
+                            <span class="font-bold text-slate-900">${t.sellerName}</span><br>
+                            <span class="text-[10px] text-slate-400">${t.sellerContact}</span>
+                        </td>
+                        <td class="py-3 px-2">
+                            <span class="font-bold text-slate-900">${t.buyerName}</span><br>
+                            <span class="text-[10px] text-slate-500">${t.buyerPlace} - ${t.buyerAddress}</span>
+                        </td>
+                        <td class="py-3 px-2 text-right">
+                            ${statusBadge}
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function saveAdminSettings(event) {
+            event.preventDefault();
+
+            appName = document.getElementById('admin-app-name').value;
+            appTagline = document.getElementById('admin-app-tagline').value;
+            appLogo = document.getElementById('admin-logo-value').value || "default";
+            const bg = document.getElementById('admin-bg-picker').value;
+
+            localStorage.setItem('mymarketki_bg', bg);
+            saveToStorage();
+            updateAppIdentity();
+            showToast("Identitas Tersimpan", "Perubahan berhasil diterapkan!", "success");
+            
+            // Switch back to landing home after success
+            setTimeout(() => {
+                switchTab('home');
+            }, 1000);
+        }
+
+        function resetSystemData() {
+            if (confirm("Peringatan Keras! Anda akan menghapus seluruh data produk, riwayat belanja, dan pesan. Yakin ingin mereset?")) {
+                localStorage.clear();
+                // Reload window to reset fully with defaults
+                window.location.reload();
+            }
+        }
+    </script>
+</body>
+</html>
